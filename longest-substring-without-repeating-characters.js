@@ -3,34 +3,18 @@
  * @return {number}
  */
 var lengthOfLongestSubstring = function(s) {
-    return recurseString(s, 0);
-};
+    const map = {};
+    let left = 0;
+    let max = 0;
 
-/**
- * @param {string} s
- * @param {number} toMatch
- * @return {number}
- */
-var recurseString = function(s, toMatch) {
-    let covered = new Set();
-    let longest = 0;
     for (let i = 0; i < s.length; i++) {
-        if (covered.has(s.charAt(i))) {
-            if (covered.size > longest) {
-                longest = covered.size;
-            }
-            covered = new Set();
-            covered.add(s.charAt(i));
-        } else {
-            covered.add(s.charAt(i));
-        }
+        left = map[s[i]] >= left ? map[s[i]] + 1 : left;
+        map[s[i]] = i;
+        max = Math.max(max, i - left + 1)
     }
-    let withoutFront = 0;
-    if (s.length > toMatch) {
-        withoutFront = recurseString(s.substr(1), Math.max(longest, covered.size, toMatch))
-    }
-    return Math.max(longest, covered.size, withoutFront);
-}
+
+    return max;
+};
 
 console.log(lengthOfLongestSubstring('abcabcbb'));
 console.log(lengthOfLongestSubstring('bbbbb'));
