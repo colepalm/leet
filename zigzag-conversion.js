@@ -9,7 +9,7 @@ var convert = function(s, numRows) {
     for (let i = 0; i < s.length; i++) {
         if (currentRow === numRows - 1) {
             matrix[currentRow][currentColumn] = s.charAt(i++)
-            if (numRows > 1) {
+            if (numRows > 1 && i < s.length) {
                 while(currentRow > 0) {
                     matrix[--currentRow][++currentColumn] = s.charAt(i++);
                 }
@@ -21,7 +21,12 @@ var convert = function(s, numRows) {
 
                 }
             }
+        } else if (currentRow === numRows) {
+            currentRow = 0;
+            matrix[currentRow++][++currentColumn] = s.charAt(i);
+
         } else {
+            // Step a row down
             matrix[currentRow++][currentColumn] = s.charAt(i);
         }
     }
@@ -41,5 +46,6 @@ var convert = function(s, numRows) {
 // console.log(convert("A", 1))
 // console.log(convert("AB", 1))
 // console.log(convert("ABC", 1))
-console.log(convert("ABCDE", 2))
+// console.log(convert("ABCDE", 2))
+console.log(convert("ABCDEF", 2))
 
