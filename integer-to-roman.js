@@ -3,45 +3,47 @@
  * @return {string}
  */
 var intToRoman = function(num) {
-    let numReverse = [...num.toString()].reverse();
     let roman = '';
-    let romanMap = {
-        1: 'I',
-        5: 'V',
-        10: 'X',
-        50: 'X',
-        100: 'C',
-        500: 'D',
-        1000: 'M',
-    }
+    let romanMap = [
+        { 1: 'I' },
+        { 4: 'IV' },
+        { 5: 'V' },
+        { 9: 'IX' },
+        { 10: 'X' },
+        { 40: 'XL' },
+        { 50: 'L' },
+        { 90: 'XC' },
+        { 100: 'C' },
+        { 400: 'CD' },
+        { 500: 'D' },
+        { 900: 'CM' },
+        { 1000: 'M' },
+    ];
 
-    numReverse.forEach((char, index) => {
-        let digit = parseInt(char);
-        if (digit >= 5) {
-            let multiplier = 1;
-            if (digit === 9) { digit += 1; }
-            else if (digit === 5) { multiplier = 2; }
-            else {
-                
-            }
-            digit = roundDigitUp(digit, index);
-            roman = romanMap[(digit * multiplier) / 10] + romanMap[digit] + roman;
-        }
-    });
+    while(num > 0) {
+        const obj = findLesserNumber(num, romanMap);
+        const value = Object.keys(obj)[0];
+        const romanVal = Object.values(obj)[0];
+        roman += romanVal;
+        num = num - value;
+    }
 
     return roman;
 };
 
-var roundDigitUp = function(digit, index) {
-    while (index > 0) {
-        digit = digit * 10;
-        index--;
+var findLesserNumber = function(num, romanMap) {
+    const reversed = romanMap.slice().reverse();
+
+    for(let i = 0; i < reversed.length; i++) {
+        const value = Object.keys(reversed[i])[0];
+        if (num >= value) {
+            return reversed[i];
+        }
     }
-    return digit;
 }
 
-// console.log(intToRoman(3))
-// console.log(intToRoman(4))
+console.log(intToRoman(3))
+console.log(intToRoman(4))
 console.log(intToRoman(9))
-// console.log(intToRoman(58))
-// console.log(intToRoman(1994))
+console.log(intToRoman(58))
+console.log(intToRoman(1994))
