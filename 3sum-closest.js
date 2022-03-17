@@ -76,4 +76,5 @@ function threeSumClosest(nums, target) {
 }
 
 // console.log(threeSumClosest([-1,2,1,-4], 1))
-console.log(threeSumClosest([1,1,1,1], 0))
+// console.log(threeSumClosest([1,1,1,1], 0))
+console.log(threeSumClosest([0,2,1,-3], 1))
