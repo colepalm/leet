@@ -3,38 +3,37 @@
  * @return {string[]}
  */
 var letterCombinations = function(digits) {
-    // stores all combinations
-    let combinations = [];
-    // maintains current level position
-    let letterPosition = 0;
-    // number of times each digit needs to get printed
-    let print = 3 ** (digits.length - 1);
-    for (let i = 0; i < digits.length; i++) {
-        // current position on number
-        letterPosition = 0;
-        // every number has 3 letters
-        let count = 2;
-        while(count > -1) {
-            // tracks max number of character on a number pad digit
-            const actualNumber = (digits[i] - 1) * 3 - 1;
-            const letter = alphabet.charAt(actualNumber - count)
-            if (i === 0) {
-                for (let j = 0; j < print; j++) {
-                    combinations.push(letter)
-                }
-            } else {
-                for (let j = 0; j < print; j++) {
-                    combinations[letterPosition + (j * 3)] = combinations[letterPosition + (j * 3)] += letter;
-                }
-                letterPosition++;
-            }
-            count--;
+    if(!digits.length) return [];
+
+    let map = {
+        2: ['a', 'b', 'c'],
+        3: ['d', 'e', 'f'],
+        4: ['g', 'h', 'i'],
+        5: ['j', 'k', 'l'],
+        6: ['m', 'n', 'o'],
+        7: ['p', 'q', 'r', 's'],
+        8: ['t', 'u', 'v'],
+        9: ['w', 'x', 'y', 'z'],
+    }
+
+    let result = [];
+
+    function permute(string, index) {
+        if(index === digits.length) {
+            result.push(string);
+            return;
+        }
+
+        for(let x of map[digits[index]]) {
+            permute(string+x, index+1);
         }
     }
-    return combinations;
+    permute('', 0);
+    return result;
 };
 
-const alphabet='abcdefghijklmnopqrstuvwxyz'
 
-console.log(letterCombinations("23"))
+// console.log(letterCombinations("23"))
+// console.log(letterCombinations("7"))
+console.log(letterCombinations("234"))
 
