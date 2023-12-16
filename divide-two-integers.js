@@ -27,7 +27,7 @@ var positiveNumbers = function(dividend, divisor) {
         divisor = -divisor
     }
     let total = divisor;
-    while (total < dividend) {
+    while (total <= dividend) {
         count++;
         total = total + divisor;
     }
@@ -42,7 +42,7 @@ var negativeNumbers = function(dividend, divisor) {
         dividend = -dividend
     }
     let total = divisor;
-    while (total > dividend) {
+    while (total >= dividend) {
         count--;
         total = total + divisor;
     }
