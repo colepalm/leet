@@ -3,21 +3,21 @@
  * @return {void} Do not return anything, modify nums in-place instead.
  */
 var nextPermutation = function(nums) {
+    if (nums.length < 2) return nums;
     let breakIndex = -1;
-    for (let i = nums.length - 2; i >= 0; i--) {
-        if (nums[i] < nums[i+1]) {
+    for (let i = nums.length - 2; i >= 0; --i) {
+        if (nums[i] < nums[i + 1]) {
             breakIndex = i;
             break;
         }
     }
-    if (breakIndex >= 0) {
-        for (let i = nums.length - 1; i >= 0; i--) {
-
-
+    for (let i = nums.length - 1; i >= 0; --i) {
+        if (nums[i] > nums[breakIndex]) {
+            swap(nums, breakIndex, i);
+            break;
         }
-    } else {
-        nums.reverse();
     }
+    reverse(nums, breakIndex + 1, nums.length - 1)
 };
 
 var swap = function (array, index1, index2) {
@@ -25,3 +25,13 @@ var swap = function (array, index1, index2) {
     array[index1] = array[index2];
     array[index2] = temp;
 }
+
+var reverse = function(nums, lo, hi) {
+    if (lo >= hi) return
+    swap(nums, lo, hi)
+    reverse(nums, lo + 1, hi - 1)
+}
+
+let nums = [1,2,3]
+nextPermutation(nums);
+console.log(nums)
