@@ -4,55 +4,39 @@
  * @return {number}
  */
 var search = function(nums, target) {
-    return recursiveSearch(nums, target);
+    let left = 0;
+    let right = nums.length - 1;
+
+    while (left <= right) {
+        let mid = Math.floor((left + right) / 2);
+
+        if (nums[mid] === target) {
+            return mid;
+        }
+
+        // Check if the left half [left..mid] is sorted
+        if (nums[left] <= nums[mid]) {
+            // Does the target lie within the sorted left half?
+            if (nums[left] <= target && target < nums[mid]) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        // Otherwise, the right half [mid..right] is sorted
+        else {
+            // Does the target lie within the sorted right half?
+            if (nums[mid] < target && target <= nums[right]) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+    }
+
+    return -1;
 };
 
-var recursiveSearch = function(nums, target) {
-    if (nums.length === 1) {
-        if (nums[0] === target) {
-            return 0;
-        } else {
-            return -1;
-        }
-    }
-    const n = nums.length;
-    let split;
-    if (n % 2 === 0) {
-        split = nums.length / 2;
-    } else {
-        split = (nums.length - 1) / 2;
-    }
-
-    if (target >= nums[0]) {
-        if (nums[split] > nums[0]) {
-            if (target >= nums[split]) {
-                return processResult(split, recursiveSearch(nums.slice(split), target));
-            } else {
-                return processResult(0, recursiveSearch(nums.slice(0, split + 1), target));
-            }
-        } else {
-            return processResult(0, recursiveSearch(nums.slice(0, split + 1), target));
-        }
-    } else {
-        if (nums[nums.length - 1] > nums[split]) {
-            if (target <= nums[split]) {
-                return processResult(0, recursiveSearch(nums.slice(0, split + 1), target));
-            } else {
-                return processResult(split, recursiveSearch(nums.slice(split), target));
-            }
-        } else {
-            return processResult(split, recursiveSearch(nums.slice(split), target));
-        }
-    }
-}
-
-var processResult = function (split, returnedValue) {
-    if (returnedValue < 0) {
-        return -1;
-    } else {
-        return split + returnedValue;
-    }
-}
 
 // console.log(search([4,5,6,7,0,1,2], 0));
 // console.log(search([4,5,6,7,0,1,2], 3));
